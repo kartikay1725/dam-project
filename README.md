@@ -1,36 +1,175 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flood Risk Predictor
 
-## Getting Started
+A full-stack web application that predicts flood risk levels based on reservoir and rainfall data using a **KNN machine learning model**. The project includes a **FastAPI backend** serving predictions via REST API and a **Next.js frontend** with a dynamic, animated, and professional form for user input.
 
-First, run the development server:
+---
+
+## Features
+
+### Backend (FastAPI)
+- Predicts flood risk: Low, Moderate, High
+- Returns probability distribution for each risk level
+- Scales input features using pre-trained scaler parameters
+- **CORS enabled** for frontend integration
+- Fully typed and robust FastAPI endpoints
+- Docker-ready
+
+### Frontend (Next.js + TailwindCSS)
+- Dynamic form auto-generated from model schema
+- Animated floating labels and professional design
+- Live input validation with shake animation for empty fields
+- Displays prediction results with probabilities
+- Fully responsive and mobile-friendly
+- Written in **TypeScript**
+- Easily extendable schema for new models
+
+---
+
+## Tech Stack
+
+| Layer     | Technology |
+|-----------|------------|
+| Backend   | Python, FastAPI, Pandas, NumPy, scikit-learn, Joblib |
+| Frontend  | Next.js, TypeScript, TailwindCSS, React Hooks |
+| Deployment| Docker, Vercel / Netlify |
+
+---
+
+## Folder Structure
+
+flood-risk-predictor/
+│
+├─ backend/
+│ ├─ app/
+│ │ ├─ main.py
+│ │ ├─ flood_risk_knn_weighted_model.pkl
+│ │ └─ scaler_params.pkl
+│ ├─ requirements.txt
+│ └─ Dockerfile
+│
+├─ frontend/
+│ ├─ pages/
+│ │ └─ index.tsx
+│ ├─ utils/
+│ │ └─ schema.ts
+│ ├─ styles/
+│ │ └─ globals.css
+│ ├─ package.json
+│ └─ tsconfig.json
+│
+├─ screenshots/
+│ ├─ form.png
+│ └─ result.png
+├─ README.md
+└─ .gitignore
+
+yaml
+Copy code
+
+---
+
+## Installation & Setup
+
+### 1. Clone the repository
 
 ```bash
+git clone https://github.com/yourusername/flood-risk-predictor.git
+cd flood-risk-predictor
+2. Backend Setup (FastAPI)
+Navigate to backend folder:
+
+bash
+Copy code
+cd backend
+Install dependencies:
+
+bash
+Copy code
+pip install -r requirements.txt
+Run FastAPI server:
+
+bash
+Copy code
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+Ensure model files flood_risk_knn_weighted_model.pkl and scaler_params.pkl are in app/.
+
+3. Frontend Setup (Next.js)
+Navigate to frontend folder:
+
+bash
+Copy code
+cd ../frontend
+Install dependencies:
+
+bash
+Copy code
+npm install
+Run development server:
+
+bash
+Copy code
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Open browser at http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The frontend calls the backend API at http://localhost:8000/predict.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. Docker Setup (Optional)
+Build Docker image:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+bash
+Copy code
+docker build -t flood-predictor ./backend
+Run container:
 
-## Learn More
+bash
+Copy code
+docker run -d -p 8000:8000 flood-predictor
+Deployment
+Frontend
+Deploy on Vercel, Netlify, or similar platforms.
 
-To learn more about Next.js, take a look at the following resources:
+Update backend API URL in fetch() to deployed backend.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Backend
+Deploy using Docker on servers like AWS EC2, DigitalOcean, Render, or Heroku.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Update allow_origins in CORS to point to frontend URL.
 
-## Deploy on Vercel
+Usage
+Start backend (FastAPI).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Start frontend (Next.js).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open the web app.
+
+Fill reservoir and rainfall data in the form.
+
+Submit to get flood risk prediction with probabilities.
+
+Notes
+CORS is enabled for local development (allow_origins=["*"]). Update in production.
+
+Input fields are dynamically generated from floodModelSchema.
+
+Validation includes red shake animation for empty inputs.
+
+TailwindCSS provides professional styling and animations.
+
+Future Improvements
+Add user authentication to save predictions.
+
+Integrate real-time reservoir & rainfall APIs for live predictions.
+
+Add historical data visualization using charts.
+
+Enable secure HTTPS deployment.
+
+Enhance UI with success animations for submit button.
+
+Live Demo (Optional)
+Frontend: https://your-frontend.vercel.app
+
+Backend API: https://your-backend.com/predict
+
+License
+This project is licensed under the MIT License.
