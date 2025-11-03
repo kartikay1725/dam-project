@@ -4,10 +4,12 @@ import numpy as np
 import pandas as pd
 import joblib
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+knn = joblib.load(os.path.join(BASE_DIR, "flood_risk_knn_weighted_model.pkl"))
+scaler_params = joblib.load(os.path.join(BASE_DIR, "scaler_params.pkl"))
 
-knn = joblib.load("flood_risk_knn_weighted_model.pkl")
-scaler_params = joblib.load("scaler_params.pkl")
 mean = scaler_params['mean']
 std = scaler_params['std']
 
@@ -31,7 +33,7 @@ class FloodInput(BaseModel):
 app = FastAPI(title="Flood Risk Predictor API")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # frontend URL
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
