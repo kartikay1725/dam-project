@@ -1,0 +1,3 @@
+SUTRA production MCP smoke test
+Governed commit path verified
+Production endpoint: api.sutra.sudarshanai.com/v1/mcp
